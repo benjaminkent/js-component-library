@@ -9,13 +9,17 @@
       <h2>your favorite number!</h2>
     </header>
     <div class="input-container">
-      <form>
+      <form @submit.prevent="handleSubmit">
         <input v-model="number" type="number" placeholder="Enter a number" />
         <transition name="error">
           <span v-if="error" class="error">Please enter a number</span>
         </transition>
-        <button v-if="factType === 'math'">Get Fact!</button>
-        <button v-else>Get Trivia!</button>
+        <div class="button-container">
+          <js-button type="submit" v-if="factType === 'math'"
+            >Get Fact!</js-button
+          >
+          <js-button type="submit" v-else>Get Trivia!</js-button>
+        </div>
       </form>
     </div>
     <div class="message">
@@ -26,9 +30,11 @@
 
 <script>
 import { fetchMathFact } from './ajax'
+import JsButton from '@benjaminkent/js-button/src/JsButton'
 
 export default {
   name: 'JsNumberFact',
+  components: { JsButton },
   props: {
     factType: String,
   },
@@ -87,6 +93,9 @@ export default {
       margin-top: 5px;
       color: red;
     }
+    .button-container {
+      margin-top: 1.5rem;
+    }
   }
   .message {
     margin: 0 30px;
@@ -96,7 +105,7 @@ export default {
   }
 }
 .error-enter-active {
-  animation: shake 0.82s ease-in-out both;
+  animation: shake 0.82s ease-in-out;
 }
 @keyframes shake {
   10%,
